@@ -4,6 +4,7 @@
     <title></title>
     <meta charset="utf-8" />
     <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+    <!--<link href="kendo/styles/kendo.mobile.exported.3.css" rel="stylesheet" />-->
     <link href="styles/main.css" rel="stylesheet" />
 
     <script src="cordova.js"></script>
@@ -11,9 +12,11 @@
     <script src="kendo/js/kendo.mobile.min.js"></script>
 
     <script src="scripts/app.js"></script>
+    <script src="scripts/fotos.js"></script>
 
 </head>
-<body>
+<body onload="navigator.notification.alert("hola",irInicio(),"llego hasta aqui", "OK");">
+<!--<body onload="navigator.notification.alert('hola',irInicio(),'llego hasta aqui', 'OK')">-->
  
     <div data-role="layout" data-id="main">
         <div data-role="header">
@@ -26,9 +29,9 @@
         
         <div data-role="footer">
             <div data-role="tabstrip">
-                <a href="views/home.html" data-icon="home">Home</a>   
-                <a href="views/settings.html" data-icon="settings">Settings</a>
-                <a href="views/contacts.html" data-icon="settings">Contacts</a>
+                <a href="views/axenda.html" data-icon="bookmarks">Axenda</a>   
+                <a href="views/camara.html" data-icon="play">Camara</a>
+                <a href="views/fotos.html" data-icon="camera">Fotos</a>
             </div>
         </div>
     </div>
