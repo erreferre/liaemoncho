@@ -1,15 +1,71 @@
 <div id="fotos" data-role="view" data-title="Fotos" data-layout="main" data-model="APP.models.fotos">
-  <!--<ul data-role="listview" data-style="inset" data-template="contactsTemplate" data-bind="source: ds"></ul>-->
-    <button width="100%"><h4>Pouco a pouco irás vendo as fotos que se vaian facendo.
-        Dentro dunhos días, cando quitemos as que non se poidan ensinar, deixarémosvos tódalas fotos compartidas en 
-        <a href="https://www.dropbox.com/sh/w58f8u7z85amyzd/AAAC7jImYFOsDmZAeJK2fcBza?dl=0">dropbox</a></h4></button>
-    <ul data-role="listview" data-style="inset" data-type="group"><li>
-        <ul id="tabstrip-selfie-fotos"><!--MUESTRA LAS FOTOS--></ul>
-    </li></ul>
+    <h4>Pouco a pouco irás vendo tódalas fotos que se vaian facendo.</h4>
+    <h4>Dentro duns días, cando quitemos as que non se poidan ensinar, deixarémolas compartidas 
+        <a href="https://www.dropbox.com/sh/w58f8u7z85amyzd/AAAC7jImYFOsDmZAeJK2fcBza?dl=0" target="_blank">aquí</a></h4>
+    <div class="boton3">
+    <button type="button" class="boton4" onclick="startSelfie()">Pulsa para refrescar</button>
+    <ul data-role="listview" data-style="inset" data-type="group">
+        <li>
+            <ul id="tabstrip-selfie-fotos">
+                <!--MUESTRA LAS FOTOS-->
+            </ul>
+        </li>
+    </ul>
 </div>
+<style scoped>
+    .boton3 {
+        text-align: center;
+    }
+    .boton4 {
+        width: 75px;
+        height: 75px;
+        position: absolute: top: 50%;
+    }
+</style>
+<script>
+    //VARIABLES GLOBALES
+    var servidor_wivivo = 'http://aerowi-boda.ddns.net/';
+    //var servidor_wivivo = 'http://srv001.liveshowsync.local/';
+    //var servidor_wivivo = 'http://192.168.10.155/';
+    //alert (servidor_wivivo);
+    var webservice_wivivo = servidor_wivivo + 'liamoncho/';
+    var servidor_selfie = webservice_wivivo + 'leeThumbs.php';
+    var servidor_thumbs = webservice_wivivo + 'subido/thumbs/';
 
-<!-- this is the template used by the listview. template items are automatically
-     wrapped in an <li> by Kendo UI Mobile -->
-<!--<script type="text/x-kendo-template" id="contactsTemplate">
-  <a data-bind="click: alert">#: data.name #</a>
-</script>-->
+    //tiempos iteracion de bucles
+    //var startselfiesettimeout = 30000;
+
+    //variables Selfie
+    //var repeSelfie1 = null;
+
+    function startSelfie() {
+        var data;
+        var val;
+        var key;
+        var newHTML1;
+        $.getJSON(servidor_selfie)
+            .done(function (data) {
+                var newHTML1 = '';
+                $.each(data, function (key, val) {
+                    var foto = val.foto;
+                    var posicion = val.posicion;
+                    newHTML1 = newHTML1 + '<img src="' + servidor_thumbs + foto + '" /></button>';
+                });
+                document.getElementById("tabstrip-selfie-fotos").innerHTML = newHTML1;
+                //          .fail(function (jqxhr, textStatus, error) {
+                //              navigator.notification.alert("Proba de novo... parece que non dou conectado", irInicio(), "ERRO NA COMUNICACION", "OK");
+                //          });
+            });
+        //repeSelfie1 = setTimeout(startSelfie, startselfiesettimeout);
+    };
+
+    // Cancela Selfie
+    //function stopSelfie() {
+    //    if (repeSelfie1 !== null) clearTimeout(repeSelfie1);
+    //    repeSelfie1 = null;
+    //};
+
+    //function irInicio() {
+    //      window.location.href = 'index.html';
+    //  };
+</script>

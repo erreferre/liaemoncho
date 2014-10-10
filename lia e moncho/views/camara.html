@@ -1,11 +1,103 @@
 <div data-role="view" data-title="Camara" data-layout="main" data-model="APP.models.camara">
-  <!--<h1 data-bind="html: title"></h1>-->
-  <div class="view-content">
-	<!--Saca foto y la sube al servidor-->
-	<p><button onclick="captureImage()">
-    <h3><br/>::::::::::::::::::::::::::::<br/></h3><h1>Saca foto</h1><h3><br/>::::::::::::::::::::::::::::<br/></h3></button></p>
-   	<div id="rutafoto"></div>
-   	<div id="rutasubida"></div>
-	<img style="display:none;margin:10px auto; width:80%;" id="smallImage" src="" />
-  </div>  
+    <!--<h1 data-bind="html: title"></h1>-->
+    <div class="boton1">
+        <!--Saca foto y la sube al servidor-->
+        <h4>Pulsa o lente para sacar unha foto e subila ó noso album do casamento</h4>
+        <button type="button" class="boton2" onclick="captureImage()">
+        </button>
+        <div id="rutafoto"></div>
+        <div id="rutasubida"></div>
+        <img style="display:none;margin:10px auto; width:80%;" id="smallImage" src="" />
+    </div>
 </div>
+<style scoped>
+    .boton1 {
+        text-align: center;
+    }
+    .boton2 {
+        width: 225px;
+        height: 225px;
+        position: absolute: top: 50%;
+        background-image: url(styles/images/lente.jpg);
+    }
+</style>
+<script>
+    //Fotos con "capture"
+    var servidor_wivivo = 'http://aerowi-boda.ddns.net/';
+    //var servidor_wivivo = 'http://54.72.186.243/';
+    var webservice_wivivo = servidor_wivivo + 'liamoncho/';
+    var servidor_sube = webservice_wivivo + 'sube.php';
+    var servidor_thumb = webservice_wivivo + 'creaThumbImagen.php';
+
+    function captureImage() {
+        navigator.device.capture.captureImage(captureSuccess, captureError, {
+            limit: 1
+        });
+    }
+
+    function captureSuccess(mediaFiles) {
+        var i, len;
+        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+            var smallImage = document.getElementById('smallImage');
+            smallImage.style.display = 'block';
+            // Show the captured photo.
+            smallImage.src = mediaFiles[i].fullPath;
+            var rutafoto1 = document.getElementById('rutafoto');
+            rutafoto1.innerHTML = '<p>quédache a foto eiquí: ' + mediaFiles[i].fullPath + '</p>';
+            var rutasubida1 = document.getElementById('rutasubida');
+            rutasubida1.innerHTML = '<p>espera uns segundos a que sexa subida...</p>';
+            uploadPhoto(mediaFiles[i]);
+        }
+    }
+
+    // Called if something bad happens.
+    function captureError(error) {
+        navigator.notification.alert("Volve a saca-la foto", function () {}, "ERRO EN CAPTURA", "OK");
+    }
+
+    //SUBE FOTO
+    function uploadPhoto(mediaFile) {
+        var options = new FileUploadOptions();
+        options.fileKey = "file";
+        options.fileName = makeId() + ".jpg";
+        var nombreFoto = options.fileName;
+        options.mimeType = "image/jpeg";
+        options.chunkedMode = false;
+        options.headers = {
+            Connection: "close"
+        };
+        var path = mediaFile.fullPath;
+        var params = {};
+        params.value1 = "Lia e Moncho";
+        params.value2 = "boda";
+        options.params = params;
+        var ft = new FileTransfer();
+        ft.upload(path, servidor_sube, uploadSuccess, uploadError, options, true);
+    }
+
+    function uploadSuccess(r) {
+        $.get(servidor_thumb, {
+            imagen: nombreFoto
+        })
+            .done(function () {
+                var rutasubida2 = document.getElementById("rutasubida");
+                rutasubida2.innerHTML = '<p>FOTO SUBIDA OK!</p>';
+            })
+            .fail(function () {
+                navigator.notification.alert("Saca a foto de novo. Houbo un erro", function () {}, "ERRO NA SUBIDA", "OK");
+            });
+    }
+
+    function uploadError(error) {
+        navigator.notification.alert("Saca a foto de novo. Houbo un erro", function () {}, "ERRO NA SUBIDA", "OK");
+    }
+
+    //nombre de imagen aleatorio
+    function makeId() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < 3; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return text;
+    }
+</script>
