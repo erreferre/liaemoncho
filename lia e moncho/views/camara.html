@@ -1,11 +1,10 @@
 <div data-role="view" data-title="Camara" data-layout="main" data-model="APP.models.camara">
-    <!--<h1 data-bind="html: title"></h1>-->
     <div class="boton1">
         <!--Saca foto y la sube al servidor-->
-        <h4>Pulsa o lente para sacar unha foto e subila ó noso album do casamento</h4>
+        <h4>Pulsa o lente para sacar unha foto e subila ó noso Album do Casamento</h4>
         <button type="button" class="boton2" onclick="captureImage()">
         </button>
-        <div id="rutafoto"></div>
+        <!--    <div id="rutafoto"></div>-->
         <div id="rutasubida"></div>
         <img style="display:none;margin:10px auto; width:80%;" id="smallImage" src="" />
     </div>
@@ -28,6 +27,7 @@
     var webservice_wivivo = servidor_wivivo + 'liamoncho/';
     var servidor_sube = webservice_wivivo + 'sube.php';
     var servidor_thumb = webservice_wivivo + 'creaThumbImagen.php';
+    var nombreFoto;
 
     function captureImage() {
         navigator.device.capture.captureImage(captureSuccess, captureError, {
@@ -42,8 +42,8 @@
             smallImage.style.display = 'block';
             // Show the captured photo.
             smallImage.src = mediaFiles[i].fullPath;
-            var rutafoto1 = document.getElementById('rutafoto');
-            rutafoto1.innerHTML = '<p>quédache a foto eiquí: ' + mediaFiles[i].fullPath + '</p>';
+            //var rutafoto1 = document.getElementById('rutafoto');
+            //rutafoto1.innerHTML = '<p>quédache a foto eiquí: ' + mediaFiles[i].fullPath + '</p>';
             var rutasubida1 = document.getElementById('rutasubida');
             rutasubida1.innerHTML = '<p>espera uns segundos a que sexa subida...</p>';
             uploadPhoto(mediaFiles[i]);
@@ -52,7 +52,7 @@
 
     // Called if something bad happens.
     function captureError(error) {
-        navigator.notification.alert("Volve a saca-la foto", function () {}, "ERRO EN CAPTURA", "OK");
+        //navigator.notification.alert("Volve a saca-la foto", function () {}, "ERRO EN CAPTURA", "OK");
     }
 
     //SUBE FOTO
@@ -60,7 +60,7 @@
         var options = new FileUploadOptions();
         options.fileKey = "file";
         options.fileName = makeId() + ".jpg";
-        var nombreFoto = options.fileName;
+        nombreFoto = options.fileName;
         options.mimeType = "image/jpeg";
         options.chunkedMode = false;
         options.headers = {
@@ -84,19 +84,23 @@
                 rutasubida2.innerHTML = '<p>FOTO SUBIDA OK!</p>';
             })
             .fail(function () {
-                navigator.notification.alert("Saca a foto de novo. Houbo un erro", function () {}, "ERRO NA SUBIDA", "OK");
+                //navigator.notification.alert("Saca a foto de novo. Houbo un erro", function () {}, "ERRO NA SUBIDA", "OK");
+                var rutasubida3 = document.getElementById("rutasubida");
+                rutasubida3.innerHTML = '<p>FOTO NON SUBIDA!</p>';
             });
     }
 
     function uploadError(error) {
-        navigator.notification.alert("Saca a foto de novo. Houbo un erro", function () {}, "ERRO NA SUBIDA", "OK");
+        //navigator.notification.alert("Saca a foto de novo. Houbo un erro", function () {}, "ERRO NA SUBIDA", "OK");
+        var rutasubida4 = document.getElementById("rutasubida");
+        rutasubida4.innerHTML = '<p>FOTO NON SUBIDA!</p>';
     }
 
     //nombre de imagen aleatorio
     function makeId() {
-        var text = "";
+        var text = "Boda_Lia_e_Moncho_";
         var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (var i = 0; i < 3; i++)
+        for (var i = 0; i < 4; i++)
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         return text;
     }
