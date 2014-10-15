@@ -2,7 +2,7 @@
     <div class="boton1">
         <!--Saca foto y la sube al servidor-->
         <h4>Pulsa o lente para sacar unha foto e subila ó noso Album do Casamento</h4>
-        <button type="button" class="boton2" onclick="captureImage()">
+        <button frameborder="1" style="border:6px outset" type="button" class="boton2" onclick="captureImage()">
         </button>
         <!--    <div id="rutafoto"></div>-->
         <div id="rutasubida"></div>
@@ -45,7 +45,7 @@
             //var rutafoto1 = document.getElementById('rutafoto');
             //rutafoto1.innerHTML = '<p>quédache a foto eiquí: ' + mediaFiles[i].fullPath + '</p>';
             var rutasubida1 = document.getElementById('rutasubida');
-            rutasubida1.innerHTML = '<p>Espera uns segundos a que sexa subida... (ata o día da boda non poderás subirlas)</p>';
+            rutasubida1.innerHTML = '<p>Espera uns segundos a que sexa subida... (ata o día da boda non poderás subilas)</p>';
             uploadPhoto(mediaFiles[i]);
         }
     }
