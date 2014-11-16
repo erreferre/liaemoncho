@@ -7,6 +7,9 @@
     // create an object to store the models for each view
     window.APP = {
         models: {
+            inicio: {
+                title: 'Inicio'
+            },
             camara: {
                 title: 'Camara'
             },
@@ -39,7 +42,7 @@
             skin: 'flat',
 
             // the application needs to know which view to load first
-            initial: 'views/axenda.html'
+            initial: 'views/inicio.html'
         });
 
     }, false);
