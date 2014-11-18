@@ -6,8 +6,8 @@
   "DisplayName": "Lia e Moncho",
   "Author": "moncho rego",
   "Description": "Casamento de Lia e Moncho",
-  "BundleVersion": "2.0",
-  "AndroidVersionCode": "2",
+  "BundleVersion": "3.0",
+  "AndroidVersionCode": "3",
   "iOSDeviceFamily": [
     "1",
     "2"

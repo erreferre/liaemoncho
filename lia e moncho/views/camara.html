@@ -4,7 +4,7 @@
         <h4>Pulsa o lente para sacar unha foto e subila ó noso Album do Casamento</h4>
         <button frameborder="1" style="border:6px outset" type="button" class="boton2" onclick="captureImage()">
         </button>
-        <!--    <div id="rutafoto"></div>-->
+        <div id="rutafoto"></div>
         <div id="rutasubida"></div>
         <img style="display:none;margin:10px auto; width:80%;" id="smallImage" src="" />
     </div>
@@ -42,10 +42,10 @@
             smallImage.style.display = 'block';
             // Show the captured photo.
             smallImage.src = mediaFiles[i].fullPath;
-            //var rutafoto1 = document.getElementById('rutafoto');
-            //rutafoto1.innerHTML = '<p>quédache a foto eiquí: ' + mediaFiles[i].fullPath + '</p>';
+            var rutafoto1 = document.getElementById('rutafoto');
+            rutafoto1.innerHTML = '<p>Quédache a foto eiquí: </p><p>' + mediaFiles[i].fullPath + '</p>';
             var rutasubida1 = document.getElementById('rutasubida');
-            rutasubida1.innerHTML = '<p>Espera uns segundos a que sexa subida... (Ollo! ata o día da boda non será posible)</p>';
+            rutasubida1.innerHTML = '<p>Espera uns segundos a que sexa subida...</p><p>(¡só será posible o día da boda!)</p>';
             uploadPhoto(mediaFiles[i]);
         }
     }
